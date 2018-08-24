@@ -1,13 +1,14 @@
 <?php
 /*
 
+Not maintained anymore by original author. Origin source: 
 https://github.com/KiboOst/php-NetatmoCameraAPI
 
 */
 
 class NetatmoCameraAPI {
 
-    public $_version = "1.03";
+    public $_version = "1.04";
 
     //user functions======================================================
     //GET:
@@ -1098,7 +1099,8 @@ class NetatmoCameraAPI {
 
     protected $_Netatmo_user;
     protected $_Netatmo_pass;
-    protected $_urlHost = 'https://my.netatmo.com';
+    protected $_urlStart = 'https://my.netatmo.com';
+    protected $_urlHost = 'https://app.netatmo.net';
     protected $_urlAuth = 'https://auth.netatmo.com';
     protected $_curlHdl = null;
 
@@ -1128,7 +1130,7 @@ class NetatmoCameraAPI {
     protected function connect()
     {
         //get csrf, required for login and all post requests:
-        $url = $this->_urlHost;
+        $url = $this->_urlStart;
         $answer = $this->_request('GET', $url);
 
         $var = $this->getCSRF($answer);

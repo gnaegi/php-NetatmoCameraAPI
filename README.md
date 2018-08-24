@@ -3,6 +3,20 @@
 # php Netatmo Camera API
 
 ## This API allow full control of your Netatmo Presence/Welcome cameras
+> Note: this is a legacy API that makes use of the Netatmo web page to control your cameras. 
+This page was never intended to be used as an API. 
+
+> This script has originally been created by @KiboOst, however he deleted the API in favor 
+of a new more generic API that is based on the official netatmo API. 
+
+> If you can, use the new API of @KiboOst as this makes use of official and documented netatmo API. 
+https://github.com/KiboOst/php-simpleNetatmoAPI
+
+> This legacy API provides some methods that are not available in the official netatmo 
+API such as enabling/disabling the camera notifications. 
+
+> Note that this API might break whenever netatmo changes something on their server. 
+Do not use it for stuff that you depend on.   
 
 The following operations are currently supported:
 
@@ -243,6 +257,12 @@ See IFTTTactions.php as an example.
 <img align="right" src="/readmeAssets/changes.jpg" width="48">
 
 ## Version history
+
+#### v1.04 (2018-08-24)
+- Fixed broken script, netatmo server domain changed
+
+#### v1.0.3 (2017-05-29)
+- Fix for setOutAlertTo
 
 #### v1.02 (2017-05-25)
 - New: getFtpConfig($CameraName) return hostname, login, port, path, state, video quality
