@@ -8,7 +8,7 @@ https://github.com/KiboOst/php-NetatmoCameraAPI
 
 class NetatmoCameraAPI {
 
-    public $_version = "1.04";
+    public $_version = "1.05";
 
     //user functions======================================================
     //GET:
@@ -1145,9 +1145,27 @@ class NetatmoCameraAPI {
             return false;
         }
 
-        //get token, required for all post requests as bearer auth:
-        $url = $this->_urlAuth.'/en-US/access/login';
-        $post = "mail=".$this->_Netatmo_user."&pass=".$this->_Netatmo_pass."&log_submit=Connexion";
+		// fetch login page and parse for hidden _token
+		$url = $this->_urlAuth.'/en-us/access/login?message=__NOT_LOGGED';
+	    $answer = $this->_request('GET', $url);
+		$loginTokenStart = strpos($answer, '"_token" value="') + 16;
+	    $loginTokenEnd = strpos($answer, '">', $loginTokenStart);
+	    $loginTokenLength = ($loginTokenEnd - $loginTokenStart);
+	    if ($loginTokenLength <= 0) {
+            $this->error = "Couldn't find Netatmo _token on login page.";
+            return false;	    
+	    }
+	    
+		$loginToken = substr($answer, $loginTokenStart, ($loginTokenLength));
+		
+		//echo '<html><body><textarea>';
+		//echo $loginToken;
+		//echo $answer;
+		//echo '</textarea></body></html';
+
+		//get token, required for all post requests as bearer auth:
+        $url = $this->_urlAuth.'/access/postlogin';
+        $post = "email=".$this->_Netatmo_user."&password=".$this->_Netatmo_pass."&_token=".$loginToken;
         $answer = $this->_request('POST', $url, $post);
 
         $cookies = explode('Set-Cookie: ', $answer);
